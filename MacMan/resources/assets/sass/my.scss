@@ -1,0 +1,24 @@
+body{
+  background-color: $gray-lighter;
+  height: 100%;
+}
+
+.navbar {
+  margin-bottom: 1rem;
+}
+
+//Fundo branco - usado nos containers
+.bg-white{
+  background-color: $white;
+}
+
+.container{
+  padding: 1rem;
+}
+
+//Alerts
+.alert{
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+}
