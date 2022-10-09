@@ -1,0 +1,42 @@
+version: "3.6"
+    
+services:
+  mongodb:
+    image: mongo:5.0-focal
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: lockey-api
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    
+  redis:
+    image: redis:7.0-rc-alpine3.15
+    volumes:
+      - redis_data:/data
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - 6379:6379
+
+  vault:
+    image: vault
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+    ports:
+      - 8200:8200
+    cap_add:
+    - IPC_LOCK
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    
+volumes:
+  redis_data: {}
+  mongodb_data: {}

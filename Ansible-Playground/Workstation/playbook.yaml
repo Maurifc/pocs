@@ -1,0 +1,17 @@
+- name: "Workstation Setup"
+  hosts: localhost
+  connection: local
+
+  roles:
+    - iac # kubectl, helm, kubens, kubectx, terraform, gcloud cli
+    - cli
+    - tilix
+    - ohmyzsh
+    - docker
+    - vscode
+    - daily_apps
+    - minikube
+    - ms_fonts
+    - aliases
+    - fix_cedilha
+    - remove_useless

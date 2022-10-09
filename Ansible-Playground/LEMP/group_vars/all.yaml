@@ -1,0 +1,7 @@
+# Servers SSH Port
+ssh_port: '22'
+
+# MySQL User and Database
+mysql_user: app
+mysql_user_password: pass
+mysql_database: app

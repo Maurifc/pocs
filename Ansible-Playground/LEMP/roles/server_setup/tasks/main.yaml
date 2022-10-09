@@ -1,0 +1,32 @@
+# Package Update
+- name: Update All Packages to the Lastest Version
+  apt:
+    update_cache: yes
+    upgrade: dist
+  become: yes
+
+- name: Check if Reboot is Required
+  register: reboot_required_file
+  stat:
+    path: /var/run/reboot-required
+
+- name: Server reboot
+  reboot:
+    msg: Ansible Task - Server reboot started due to system update
+  when: reboot_required_file.stat.exists
+  become: yes
+
+- name: Install Provision Dependencies
+  apt:
+    name: 
+    - iptables-persistent
+    - python3-pip
+    state: present
+  become: yes
+
+# SSH Server
+- name: Setting up SSH Server
+  template:
+    src: templates/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  become: yes

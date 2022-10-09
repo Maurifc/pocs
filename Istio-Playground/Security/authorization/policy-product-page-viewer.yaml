@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: "productpage-viewer"
+  namespace: default
+spec:
+  selector:
+    matchLabels: #! Destination match
+      app: productpage #! This policy applies only to workloads with this label (on 'default' namespace)
+  action: ALLOW #! You can deny too
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"] #! HTTP METHOD = GET 
+        
+#? We have no 'from:', so this policy applies to every service accounts (workloads) and namespaces

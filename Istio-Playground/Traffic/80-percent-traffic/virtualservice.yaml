@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - myapp # Very important!!!! Don't miss it!!!
+  http:
+  - route:
+    - destination:
+        host: myapp
+        subset: v1 # v1 = label=red
+      weight: 80 # 80% of traffic
+    - destination:
+        host: myapp
+        subset: v2 # v1 = label=green
+      weight: 20 # 20% of traffic

@@ -1,0 +1,26 @@
+- name: Install Ansible Dependencies
+  apt:
+    name: python3-pip
+    state: latest
+  become: yes
+
+- name: Install Python's Docker Module
+  pip:
+    name: docker
+  become: yes
+
+- name: Create the Portainer Docker Volume
+  docker_volume:
+    name: portainer_data
+
+- name: Run Portainer on Docker
+  docker_container:
+    name: portainer
+    image: cr.portainer.io/portainer/portainer-ce:2.9.3
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart_policy: always
+    ports:
+      - 8000:8000
+      - 9443:9443

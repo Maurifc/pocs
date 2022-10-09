@@ -1,0 +1,6 @@
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=vagrant
+
+[portainer]
+10.10.10.15 ansible_private_key_file=.vagrant/machines/default/virtualbox/private_key 

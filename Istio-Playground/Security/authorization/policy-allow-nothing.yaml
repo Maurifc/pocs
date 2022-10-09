@@ -1,0 +1,7 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing
+  namespace: default #! Applies only to `default` namespace
+spec:
+  {} #! This deny every requests from all sources to all destination on namespace where this manifest is applied

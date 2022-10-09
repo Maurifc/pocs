@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canary-demo # Application name
+  namespace: argocd # Namespace where ArgoCD is deployed
+spec:
+  project: default
+  source:
+    repoURL: 'git@bitbucket.org:mauricarmo/kubernetes.git' # Repo to sync
+    path: canary-demo # Folder within the repo, with .yaml files
+    targetRevision: master # Branch
+  destination:
+    server: 'https://kubernetes.default.svc' # Cluster to depoy
+    namespace: canary-demo  # Namespace to deploy
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true # Create namespace if it doesn't exists

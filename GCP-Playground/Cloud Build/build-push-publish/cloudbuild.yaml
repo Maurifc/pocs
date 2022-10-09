@@ -1,0 +1,40 @@
+steps:
+
+  # Build
+  - id: 'build'
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: 
+      - '-c'
+      - |
+          docker build -t ${_IMAGE_NAME}:${SHORT_SHA} -t ${_IMAGE_NAME}:latest -t ${_IMAGE_NAME}:${_IMAGE_TAG} .
+
+  #Push
+  - id: 'publish'
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: 
+      - '-c'
+      - |
+          docker push ${_IMAGE_NAME}:${SHORT_SHA}
+          docker push ${_IMAGE_NAME}:${_IMAGE_TAG}
+          docker push ${_IMAGE_NAME}:latest
+
+  # Deploy to GKE
+  - id: 'deploy-gke'
+    name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+    - run
+    - --filename=k8s # k8s folder
+    - --location=${_LOCATION}
+    - --cluster=${_CLUSTER}
+    - --image=${_IMAGE_NAME}:${_IMAGE_TAG}
+
+substitutions:
+  _LOCATION: us-east1-b
+  _CLUSTER: temp-c
+  _IMAGE_NAME: gcr.io/${PROJECT_ID}/hello
+  _IMAGE_TAG: ${TAG_NAME}
+
+images:
+  - ${_IMAGE_NAME}:${_IMAGE_TAG}

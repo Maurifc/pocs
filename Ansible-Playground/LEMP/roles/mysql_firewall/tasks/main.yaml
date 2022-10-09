@@ -1,0 +1,11 @@
+- name: Allow MySQL Access From App Server
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    source: "{{ app_server_address }}"
+    destination_port: '3306'
+    jump: ACCEPT
+    comment: Allow HTTP Port
+  become: yes
+  notify:
+    - Save IPTables Rules

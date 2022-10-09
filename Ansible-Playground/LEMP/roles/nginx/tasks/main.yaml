@@ -1,0 +1,32 @@
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+  become: yes
+
+- name: Creating VirtualHost
+  template:
+    src: templates/virtualhost.j2
+    dest: /etc/nginx/sites-available/{{ app_domain }}
+  notify:
+    - Restart NGINX
+  become: yes
+
+- name: Enabling VirtualHost ( {{ app_domain }} )
+  file:
+    src: /etc/nginx/sites-available/{{ app_domain }}
+    dest: /etc/nginx/sites-enabled/{{ app_domain }}
+    state: link
+  notify:
+    - Restart NGINX
+  become: yes
+
+- name: Disabling Default VirtualHost
+  file:
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Restart NGINX
+  become: yes
+
+  

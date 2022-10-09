@@ -1,0 +1,17 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: "reviews-viewer"
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews #! Allow requests to 'reviews'
+  action: ALLOW
+  rules:
+  - from:
+    - source: #! Set the source which this policy applies to
+        principals: ["cluster.local/ns/default/sa/bookinfo-productpage"] #! Service account used by 'productpage'
+    to:
+    - operation:
+        methods: ["GET"]

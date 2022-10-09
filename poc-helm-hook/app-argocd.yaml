@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sample
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Maurifc/poc-helm-hook/'
+    path: sample-chart
+    targetRevision: master
+    # helm:
+    #   valueFiles:
+    #     - values-prod.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: hook
+  syncPolicy:
+    automated:
+      prune: true

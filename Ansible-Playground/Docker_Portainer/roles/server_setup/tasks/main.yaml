@@ -1,0 +1,44 @@
+- name: Update all packages to the lastest version
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Check if reboot is required
+  register: reboot_required_file
+  stat:
+    path: /var/run/reboot-required
+
+- name: Server reboot
+  reboot:
+    msg: Ansible Task - Server reboot started due to system update
+  when: reboot_required_file.stat.exists
+
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Create SysAdmin user
+  user:
+    name: sysadmin
+    shell: /bin/bash
+    password: "{{ sysadmin_pass | password_hash('sha512') }}"
+    append: yes
+    groups:
+    - docker
+    - sudo
+    state: present
+
+
+- name: Add SysAdmin's public key to 'authorized keys' File
+  authorized_key:
+    user: sysadmin
+    state: present
+    key: "{{ lookup('file', 'files/sysadmin_pub_key') }}"
+
+
+- name: Configure SSH Server
+  template:
+    src: templates/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  become: yes

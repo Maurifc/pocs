@@ -1,0 +1,24 @@
+# Default values for lockeyapi_chart.
+replicaCount: 1
+
+image:
+  repository: maurifc/lockeyapi
+  pullPolicy: IfNotPresent
+  tag: "v0.1"
+
+vaultServerAddress: http://172.17.0.1:8200
+
+imagePullSecrets: []
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+resources: 
+  requests: 
+    cpu: 20m
+    memory: 50Mi
+  limits:
+    cpu: 100m
+    memory: 120Mi

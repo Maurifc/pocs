@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lockeyapi-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@bitbucket.org:mauricarmo/kubernetes.git'
+    path: charts/lockeyapi
+    targetRevision: master
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev

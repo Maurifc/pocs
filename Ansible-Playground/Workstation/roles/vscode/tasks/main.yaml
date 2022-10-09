@@ -1,0 +1,16 @@
+- name: Install VS Code 
+  apt:
+    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+    state: present
+  become: yes
+
+- name: VSCode - Fix Sync
+  apt:
+    name: gnome-keyring
+    state: present
+  become: yes
+
+- name: Fix PowerLevel10k icons
+  copy:
+    src: fonts/
+    dest: $HOME/.fonts/

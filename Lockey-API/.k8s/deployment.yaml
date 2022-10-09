@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lockeyapi
+  labels:
+    app: lockeyapi
+spec:
+  selector:
+    matchLabels:
+      app: lockeyapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lockeyapi
+    spec:
+      containers:
+        - name: lockeyapi
+          image: maurifc/lockeyapi:v0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          envFrom:
+            - configMapRef:
+                name: lockeyapi
+          ports:
+            - containerPort: 3000
+              name: lockeyapi
