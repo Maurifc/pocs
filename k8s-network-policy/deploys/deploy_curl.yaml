@@ -1,0 +1,43 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl
+  labels:
+    app: curl
+spec:
+  selector:
+    matchLabels:
+      app: app1
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+      - name: curl
+        image: curlimages/curl:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        ports:
+        - containerPort: 80
+          name: curl
+        command:
+          - "sleep"
+          - "infinity"
+      restartPolicy: Always
