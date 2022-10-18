@@ -42,7 +42,7 @@ kubectl apply -f deny-all-ingress-traffic.yaml -n default
 ## Allow traffic
 
 ### Only from certains labels
-Now, allow ingress traffic to pods where label `appnginx`  from namespaces where label `project=another` and pod label is `app1`
+Now, allow ingress traffic to pods where label `app=nginx`  from namespaces where label `project=another` and pod label is `app1`
 
 ```bash
 kubectl apply -n allow-from-app1.yaml
@@ -52,3 +52,12 @@ kubectl apply -n allow-from-app1.yaml
 ```bash
 kubectl apply -n allow-from-secure.yaml
 ```
+
+## Allowed traffic mapping
+
+| Source Namespace Label | Source Pod Label | Dest Namespace Label | Dest Pod Label | Allowed |
+| ---------------------- | ---------------- | -------------------- | -------------- | ------- |
+| secure                 | *                | default              | nginx          | yes     |
+| another                | app=app1         | default              | app=nginx      | yes     |
+| another                | *                | default              | app=nginx      | no      |
+| *                      | *                | default              | app=nginx      | no      |
