@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 
 namespace TodoApi
 {
@@ -51,12 +52,14 @@ namespace TodoApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseHttpMetrics(); //! Prometheus
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapMetrics(); //! Prometheus
             });
         }
     }
