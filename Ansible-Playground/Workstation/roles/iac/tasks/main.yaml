@@ -40,18 +40,6 @@
     state: link
   become: true
 
-- name: Terraform - Install gpg key
-  apt_key:
-    url: https://apt.releases.hashicorp.com/gpg
-    state: present
-  become: true
-
-- name: Terraform - Add APT Repository
-  apt_repository:
-    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release | lower }} main"
-    state: present
-  become: true
-
 - name: GCloud CLI - Install gpg Key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -62,14 +50,6 @@
   apt_repository:
     repo: deb https://packages.cloud.google.com/apt cloud-sdk main
     state: present
-  become: true
-
-- name: Terraform install
-  apt:
-    name:
-    - terraform
-    update_cache: yes
-    state: latest
   become: true
 
 - name: GCloud CLI install
