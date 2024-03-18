@@ -3,6 +3,7 @@
   connection: local
 
   roles:
+    - essentials
     - iac # kubectl, helm, kubens, kubectx, terraform, gcloud cli
     - cli
     - tilix

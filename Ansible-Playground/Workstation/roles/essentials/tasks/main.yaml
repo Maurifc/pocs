@@ -1,0 +1,12 @@
+- name: Remove nosnap file
+  file:
+    path: /etc/apt/preferences.d/nosnap.pref
+    state: absent
+  become: true
+- name: Install Snap
+  apt:
+    name:
+    - snapd
+    state: latest
+    update_cache: true
+  become: true
