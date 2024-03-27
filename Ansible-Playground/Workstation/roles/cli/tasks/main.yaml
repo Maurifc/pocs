@@ -17,6 +17,13 @@
     state: latest
   become: true
 
+- name: ImageMagick
+  apt:
+    name:
+    - imagemagick
+    state: latest
+  become: true
+
 - name: TLDR - Install
   apt:
     name:
@@ -31,5 +38,12 @@
   apt:
     name:
     - autorandr
+    state: latest
+  become: true
+
+- name: jq
+  apt:
+    name:
+    - jq
     state: latest
   become: true
