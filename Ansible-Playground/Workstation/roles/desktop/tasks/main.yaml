@@ -4,13 +4,6 @@
     state: present
   become: yes
 
-- name: jq
-  apt:
-    name:
-    - jq
-    state: latest
-  become: true
-
 - name: Spotify
   snap:
     name:
@@ -21,6 +14,13 @@
   apt:
     name:
     - flameshot
+    state: latest
+  become: true
+
+- name: Clipboard Manager (Parcellite)
+  apt:
+    name:
+    - parcellite
     state: latest
   become: true
 
